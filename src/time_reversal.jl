@@ -222,13 +222,13 @@ function echo(H::SparseMatrixCSC{ComplexF64},trange::ExtRange,ψ0::Vector{Comple
         λs, Q = eigen!(Matrix(H))
         Q = convert(Matrix{Float64},Q)
         logmsg("Diagonalized H.")
-        ψs = evolve_forward(λs,Q,trange,ψ0)
+        ψs = evolve_forward(λs,Q,trange,ψ0,N)
         for (i,t) in enumerate(trange)
             seq = get_sequence(sequence_name,t,n)
             ψs[:,i] = floquet_drive(H,λs,Q,ψs[:,i],N,seq,n)
         end
     elseif method == "Krylov"
-        ψs = evolve_forward(H,trange,ψ0)
+        ψs = evolve_forward(H,trange,ψ0,N)
         ψs = perturb(A,ϕ,ψs)
         for (i,t) in enumerate(trange)
             seq = get_sequence(sequence_name,t,n)
@@ -262,14 +262,14 @@ function echo(H::SparseMatrixCSC{ComplexF64},A::SparseMatrixCSC{ComplexF64},ϕ::
         λs, Q = eigen!(Matrix(H))
         Q = convert(Matrix{Float64},Q)
         logmsg("Diagonalized H.")
-        ψs = evolve_forward(λs,Q,trange,ψ0)
+        ψs = evolve_forward(λs,Q,trange,ψ0,N)
         ψs = perturb(A,ϕ,ψs)
         for (i,t) in enumerate(trange)
             seq = get_sequence(sequence_name,t,n)
             ψs[:,i] = floquet_drive(H,λs,Q,ψs[:,i],N,seq,n)
         end
     elseif method == "Krylov"
-        ψs = evolve_forward(H,trange,ψ0)
+        ψs = evolve_forward(H,trange,ψ0,N)
         ψs = perturb(A,ϕ,ψs)
         for (i,t) in enumerate(trange)
             seq = get_sequence(sequence_name,t,n)
