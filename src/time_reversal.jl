@@ -138,17 +138,17 @@ function floquet_drive(H::SparseMatrixCSC{ComplexF64},ψ::Vector{ComplexF64},N::
             k_fast = 0
             for (k,pulse) in enumerate(seq.pulses)
                 if seq.τs[k] > 0
-                    ψ = krylov_from0_alternative(Hint,-seq.τs[k],ψ,tmax)
+                    ψ = krylov_from0_alternative(H,-seq.τs[k],ψ,tmax)
                 end
                 if pulse isa FastPulse
                     k_fast += 1
                     ψ = rotations[k_fast] * ψ
                 elseif pulse isa SlowPulse
-                    ψ = krylov_from0_alternative(Hint+hamiltonian(pulse,N),-seq.pulse_times[k],ψ,tmax)
+                    ψ = krylov_from0_alternative(H+hamiltonian(pulse,N),-seq.pulse_times[k],ψ,tmax)
                 end
             end
             if seq.τs[seq.n_τs] > 0
-                ψ = krylov_from0_alternative(Hint,-seq.τs[seq.n_τs],ψ,tmax)
+                ψ = krylov_from0_alternative(H,-seq.τs[seq.n_τs],ψ,tmax)
             end
         end
         return ψ
@@ -207,10 +207,10 @@ end
 
 #Single Time
 
-function echo(Hint::SparseMatrixCSC{ComplexF64},t::Float64,ψ0::Vector{ComplexF64},sequence_name::String,n::Int,N::Int,method::String)
+function echo(H::SparseMatrixCSC{ComplexF64},t::Float64,ψ0::Vector{ComplexF64},sequence_name::String,n::Int,N::Int,method::String)
 	seq = get_sequence(sequence_name,t,n)
-	ψ = evolve_forward(Hint,t,ψ0,method)
-	ψ = floquet_drive(Hint,ψ,N,seq,n,method)
+	ψ = evolve_forward(H,t,ψ0,method)
+	ψ = floquet_drive(H,ψ,N,seq,n,method)
 	return ψ
 end
 
