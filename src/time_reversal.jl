@@ -64,7 +64,7 @@ end
 
 function perturb(A::SparseMatrixCSC{ComplexF64},ϕ::Float64,ψs::Matrix{ComplexF64})
     res = zeros(ComplexF64,size(ψs))
-    for i in 1:size(ψs)[1]
+    for i in 1:size(ψs)[2]
         res[:,i] = exp(-im*ϕ/2*Matrix(A)) * ψs[:,i]
     end
     return res
