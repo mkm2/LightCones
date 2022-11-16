@@ -31,7 +31,7 @@ end
 
 #Time Range - ED
 
-function evolve_forward(λs::Vector{Float64},Q::Matrix{Float64},trange::ExtRange,ψ0::Vector{ComplexF64})
+function evolve_forward(λs::Vector{Float64},Q::Matrix{Float64},trange::ExtRange,ψ0::Vector{ComplexF64},N::Int)
     res = zeros(2^N,length(trange))
     for (i,t) in enumerate(trange)
         res[:,i] = Q*exp(-im*Diagonal(λs)*t)*Q'*ψ0 
@@ -40,7 +40,7 @@ function evolve_forward(λs::Vector{Float64},Q::Matrix{Float64},trange::ExtRange
 end
 
 #Time Range - Krylov
-function evolve_forward(H::SparseMatrixCSC{ComplexF64},trange::ExtRange,ψ0::Vector{ComplexF64})
+function evolve_forward(H::SparseMatrixCSC{ComplexF64},trange::ExtRange,ψ0::Vector{ComplexF64},N::Int)
     res = zeros(2^N,length(trange))
     res[:,1] = krylov_step(H,-trange[1],ψ0)
     for i in eachindex(trange)
