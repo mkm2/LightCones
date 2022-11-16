@@ -16,7 +16,8 @@ export chainJ, chainJ_pbc, correlator, single_spin_op
 export xxz, xxz_pbc, xyz, xyz_pbc, field_term, hamiltonian_from_positions, const_field
 export nearest_neighbourJ, nearest_neighbourJ_pbc
 export random_state, random_product_state, random_bit_state, random_bitstring_state
-export magnetisation
+export magnetisation, fideltiy, measure_at_j, measure_all, sign_of_eigenstate, otoc_by_eigenstate_measurement
+
 
 const σplus = sparse([1],[2],[1.0],2,2)
 const σminus = sparse([2],[1],[1.0],2,2)
