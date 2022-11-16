@@ -5,6 +5,8 @@ using SpinSymmetry, Statistics
 using KrylovKit
 using ..LightCones
 
+@reexport using ..PulseSequences
+
 export evolve_forward, perturb, floquet_drive, echo
 
 ExtRange = Union{AbstractRange{Float64},Vector{Float64}}
