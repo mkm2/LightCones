@@ -216,7 +216,7 @@ end
 
 #Time Range
 
-function echo(H::SparseMatrixCSC{ComplexF64},trange::ExtRange,ψ0::Vector{ComplexF64},sequence_name::String,n::Int,N::Int,method::String)
+function echo(H::SparseMatrixCSC{ComplexF64},trange::ExtRange,ψ0::Vector{ComplexF64},sequence_name::String,n::Int,N::Int,method::String,tmax::Float64=1.0)
     ψs = zeros(2^N,length(trange))
     if method == "ED"
         λs, Q = eigen!(Matrix(H))
@@ -229,7 +229,6 @@ function echo(H::SparseMatrixCSC{ComplexF64},trange::ExtRange,ψ0::Vector{Comple
         end
     elseif method == "Krylov"
         ψs = evolve_forward(H,trange,ψ0,N)
-        ψs = perturb(A,ϕ,ψs)
         for (i,t) in enumerate(trange)
             seq = get_sequence(sequence_name,t,n)
             ψs[:,i] = floquet_drive(H,ψs[:,i],N,seq,n,method,tmax)
@@ -256,7 +255,7 @@ echo(H::SparseMatrixCSC{ComplexF64},A::SparseMatrixCSC{ComplexF64},t::Float64,ψ
 
 #Time Range
 
-function echo(H::SparseMatrixCSC{ComplexF64},A::SparseMatrixCSC{ComplexF64},ϕ::Float64,trange::ExtRange,ψ0::Vector{ComplexF64},sequence_name::String,n::Int,N::Int,method::String)
+function echo(H::SparseMatrixCSC{ComplexF64},A::SparseMatrixCSC{ComplexF64},ϕ::Float64,trange::ExtRange,ψ0::Vector{ComplexF64},sequence_name::String,n::Int,N::Int,method::String,tmax::Float64=1.0)
     ψs = zeros(2^N,length(trange))
     if method == "ED"
         λs, Q = eigen!(Matrix(H))
@@ -278,7 +277,7 @@ function echo(H::SparseMatrixCSC{ComplexF64},A::SparseMatrixCSC{ComplexF64},ϕ::
     end
     return ψs
 end
-echo(H::SparseMatrixCSC{ComplexF64},A::SparseMatrixCSC{ComplexF64},trange::ExtRange,ψ0::Vector{ComplexF64},sequence_name::String,n::Int,N::Int,method::String) = echo(H,A,π/1.,trange,ψ0,sequence_name,n,N,method) #ϕ=π
+echo(H::SparseMatrixCSC{ComplexF64},A::SparseMatrixCSC{ComplexF64},trange::ExtRange,ψ0::Vector{ComplexF64},sequence_name::String,n::Int,N::Int,method::String,tmax::Float64=1.0) = echo(H,A,π/1.,trange,ψ0,sequence_name,n,N,method,tmax) #ϕ=π
 
 
 end #module
