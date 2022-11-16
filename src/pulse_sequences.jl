@@ -241,3 +241,5 @@ function get_sequence(sequence_name::String,t::Float6,n::Int)
     end
     return seq
 end
+
+end #module
