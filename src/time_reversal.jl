@@ -277,3 +277,6 @@ function echo(H::SparseMatrixCSC{ComplexF64},A::SparseMatrixCSC{ComplexF64},ϕ::
     return ψs
 end
 echo(H::SparseMatrixCSC{ComplexF64},A::SparseMatrixCSC{ComplexF64},trange::ExtRange,ψ0::Vector{ComplexF64},sequence_name::String,n::Int,N::Int,method::String) = echo(H,A,π/1.,trange,ψ0,sequence_name,n,N,method) #ϕ=π
+
+
+end #module
