@@ -43,7 +43,7 @@ end
 function evolve_forward(H::SparseMatrixCSC{ComplexF64},trange::ExtRange,ψ0::Vector{ComplexF64},N::Int)
     res = zeros(ComplexF64,2^N,length(trange))
     res[:,1] = krylov_step(H,-trange[1],ψ0)
-    for i in eachindex(trange)
+    for i in 2:length(trange)
         δt = trange[i] - trange[i-1]
         res[:,i] = krylov_step(H,-δt,res[:,i-1])
     end
