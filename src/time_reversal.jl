@@ -32,7 +32,7 @@ end
 #Time Range - ED
 
 function evolve_forward(λs::Vector{Float64},Q::Matrix{Float64},trange::ExtRange,ψ0::Vector{ComplexF64},N::Int)
-    res = zeros(2^N,length(trange))
+    res = zeros(ComplexF64,2^N,length(trange))
     for (i,t) in enumerate(trange)
         res[:,i] = Q*exp(-im*Diagonal(λs)*t)*Q'*ψ0 
     end
@@ -41,7 +41,7 @@ end
 
 #Time Range - Krylov
 function evolve_forward(H::SparseMatrixCSC{ComplexF64},trange::ExtRange,ψ0::Vector{ComplexF64},N::Int)
-    res = zeros(2^N,length(trange))
+    res = zeros(ComplexF64,2^N,length(trange))
     res[:,1] = krylov_step(H,-trange[1],ψ0)
     for i in eachindex(trange)
         δt = trange[i] - trange[i-1]
@@ -63,7 +63,7 @@ end
 #Time Range
 
 function perturb(A::SparseMatrixCSC{ComplexF64},ϕ::Float64,ψs::Matrix{ComplexF64})
-    res = zeros(size(ψs))
+    res = zeros(ComplexF64,size(ψs))
     for i in 1:size(ψs)[1]
         res[:,i] = exp(-im*ϕ/2*Matrix(A)) * ψs[:,i]
     end
