@@ -210,7 +210,7 @@ end
 function echo(Hint::SparseMatrixCSC{ComplexF64},t::Float64,ψ0::Vector{ComplexF64},sequence_name::String,n::Int,N::Int,method::String)
 	seq = get_sequence(sequence_name,t,n)
 	ψ = evolve_forward(Hint,t,ψ0,method)
-	ψ = floquet_drive(Hint,t,ψ,N,seq,n,method)
+	ψ = floquet_drive(Hint,ψ,N,seq,n,method)
 	return ψ
 end
 
@@ -248,7 +248,7 @@ function echo(H::SparseMatrixCSC{ComplexF64},A::SparseMatrixCSC{ComplexF64},ϕ::
     seq = get_sequence(sequence_name,t,n)
     ψ = evolve_forward(H,t,ψ0,method)
     ψ = perturb(A,ϕ,ψ)
-    ψ = floquet_drive(H,t,ψ,N,seq,n,method)
+    ψ = floquet_drive(H,ψ,N,seq,n,method)
     return ψ
 end
 echo(H::SparseMatrixCSC{ComplexF64},A::SparseMatrixCSC{ComplexF64},t::Float64,ψ0::Vector{ComplexF64},sequence_name::String,n::Int,N::Int,method::String) = echo(H,A,π/1.,t,ψ0,sequence_name,n,N,method) #ϕ=π
