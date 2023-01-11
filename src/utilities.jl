@@ -83,6 +83,22 @@ function save_TR(fids, otocs, params, jobid, datapath)
     end    
 end
 
+function save_TR_ext(fids, otocs, true_otocs, params, jobid, datapath)
+    dname = dirname(datapath)
+    if !isdir(dname)
+        logmsg("Save directory: $dname does not exist. Creating!")
+        mkpath(dname)
+    end
+    logmsg("Saving file: $datapath")
+    jldopen(datapath, "w") do file
+        file["fidelities"] = fids
+        file["otocs"] = otocs
+        file["true_otocs"] = true_otocs
+        file["params"] = params
+        file["jobid"] = jobid
+    end    
+end
+
 function save_with_hs(data,params,hs,jobid,datapath)
     dname = dirname(datapath)
     if !isdir(dname)
