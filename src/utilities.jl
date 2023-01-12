@@ -6,7 +6,7 @@ using KrylovKit
 import Dates
 using ..LightCones
 
-export logmsg, path_prefix, save, save_with_pos, save_TR, save_with_hs
+export logmsg, path_prefix, save, save_with_pos, save_TR, save_with_hs, save_TR_ext
 export SimulationParams, SimulationParamsED
 export logrange
 
