@@ -6,7 +6,7 @@ using ..LightCones
 
 export  otoc, otoc_spat, krylov_from0, krylov_step, krylov_from0_alternative
 export otoc_ed, otoc_edtr, otoc_edψ, otoc_spat_ed, otoc_spat_edtr, otoc_spat_edψ
-export Diag_OTOC, Diag_OTOCψ, Diag_OTOCtr, DiagOTOC_multiplestates
+export Diag_OTOC, Diag_OTOCψ, Diag_OTOCtr, DiagOTOC_multiplestates, Diag_OTOC_xyz
 
 
 ExtRange = Union{AbstractRange{Float64},Vector{Float64}}
@@ -296,6 +296,20 @@ function Diag_OTOC(H::Matrix{ComplexF64},A::SparseMatrixCSC{ComplexF64,Int64},b:
 	QdAQ =  Q'*A*Q
 	return otoc_spat_ed(QdAQ,b,λs,Q,ts,N,s,symsec,dim)
 end
+
+function Diag_OTOC_xyz(H::Matrix{ComplexF64},Ax::SparseMatrixCSC{ComplexF64,Int64},Ay::SparseMatrixCSC{ComplexF64,Int64},Az::SparseMatrixCSC{ComplexF64,Int64},b::SparseMatrixCSC{ComplexF64,Int64},ts::TvExtRange,N::Int64,s::Int64)
+	λs, Q = eigen!(H)
+	Q = convert(Matrix{Float64},Q)
+	logmsg("Diagonalized H.")
+	QdAxQ = Q'*Ax*Q
+	QdAyQ = Q'*Ay*Q
+	QdAzQ = Q'*Az*Q
+	otocx = otoc_spat_ed(QdAxQ,b,λs,Q,ts,N,s)
+	otocy = otoc_spat_ed(QdAyQ,b,λs,Q,ts,N,s)
+	otocz = otoc_spat_ed(QdAzQ,b,λs,Q,ts,N,s)
+	return otocx,otocy,otocz
+end
+
 
 function DiagOTOC_multiplestates(H,A,b,ts,N,s)
 	λs, Q = eigen!(H)
