@@ -1,11 +1,10 @@
 module TimeReversal
-using SparseArrays, LinearAlgebra, Plots
+using SparseArrays, LinearAlgebra
 using SpinSymmetry, Statistics
 using KrylovKit
-using Reexport
 using ..LightCones
 
-@reexport using ..PulseSequences
+using ..PulseSequences
 
 export evolve_forward, perturb, floquet_drive, echo, fidelity_timereversal, oto_commutator_timereversal
 
@@ -34,7 +33,7 @@ end
 function evolve_forward(λs::Vector{Float64},Q::Matrix{Float64},trange::ExtRange,ψ0::Vector{ComplexF64},N::Int)
     res = zeros(ComplexF64,2^N,length(trange))
     for (i,t) in enumerate(trange)
-        res[:,i] = Q*exp(-im*Diagonal(λs)*t)*Q'*ψ0 
+        res[:,i] = Q*exp(-im*Diagonal(λs)*t)*Q'*ψ0
     end
     return res
 end
@@ -112,7 +111,7 @@ function floquet_drive(H::SparseMatrixCSC{Float64},ψ::Vector{ComplexF64},N::Int
                 λs[k_slow], Qs[k_slow] = eigen!(Matrix(H+hamiltonian(pulse,N)))
             end
         end
-        
+
         #Apply pulses
         for _iter in 1:n
             k_fast = 0
@@ -134,7 +133,7 @@ function floquet_drive(H::SparseMatrixCSC{Float64},ψ::Vector{ComplexF64},N::Int
             end
         end
         return ψ
-        
+
 
     ### KRYLOV ###
     elseif method == "Krylov"
@@ -191,7 +190,7 @@ function floquet_drive(H::SparseMatrixCSC{Float64},λs_f::Vector{Float64},Q_f::M
             λs[k_slow], Qs[k_slow] = eigen!(Matrix(H+hamiltonian(pulse,N)))
         end
     end
-    
+
     #Apply pulses
     for _iter in 1:n
         k_fast = 0
@@ -328,7 +327,7 @@ function echo(H::SparseMatrixCSC{Float64},A::SparseMatrixCSC{ComplexF64},ϕ::Flo
 
         else
             ψs = perturb(A,ϕ,ψs)
-        end        
+        end
         for (i,t) in enumerate(trange)
             seq = get_sequence(sequence_name,t,n)
             ψs[:,i] = floquet_drive(H,ψs[:,i],N,seq,n,method,tmax)
@@ -442,7 +441,7 @@ function oto_commutator_timereversal(H::SparseMatrixCSC{Float64},A::SparseMatrix
             ψ = evolve_forward(λs,Q,t,ψ0,N)
             if ϕ == π/1.
                 ψs = perturb(A,ψ)
-    
+
             else
                 ψs = perturb(A,ϕ,ψ)
             end

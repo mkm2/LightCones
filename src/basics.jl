@@ -1,14 +1,13 @@
 module Basics
 
-using SparseArrays, LinearAlgebra, Plots
+using SparseArrays, LinearAlgebra
 using SpinSymmetry
 using KrylovKit
-using Reexport
 using ..LightCones
 
-@reexport using ..Geom
-@reexport using ..Interactions
-@reexport using ..GeomPos
+using ..Geom
+using ..Interactions
+using ..GeomPos
 
 export σplus, σminus, σz, σx, σy, ⊗, Δ, 𝟙
 export up, down, rightx, leftx, neel_state, neel_x_state
@@ -232,7 +231,7 @@ end
 function sign_of_eigenstate(B,ψ)
     if isapprox(ψ'B*ψ,1.0)
         return +1.0
-    elseif isapprox(ψ'B*ψ,-1.0) 
+    elseif isapprox(ψ'B*ψ,-1.0)
         return -1.0
     else
         throw("ψ is not an eigenstate of B to an eigenvalue of magnitude 1.")

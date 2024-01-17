@@ -1,5 +1,5 @@
 module PulseSequences
-using SparseArrays, LinearAlgebra, Plots
+using SparseArrays, LinearAlgebra
 using SpinSymmetry, Statistics
 using KrylovKit
 using ..LightCones
@@ -222,7 +222,7 @@ function Rhim71_FR(Ω::Float64) #Magic echo reversing fields
     pulses[8] = FastPulse("-x",π/1.0)
     pulses[9] = SlowPulse("-x",π,Ω)
     pulses[10] = FastPulse("+y",π/2.0)
-    
+
     return Sequence(pulses,[0.,0.,0.,0.,0.,π/Ω,0.,0.,0.,0.,0.])
 end
 

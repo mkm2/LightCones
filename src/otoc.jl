@@ -1,5 +1,5 @@
 module OTOC
-using SparseArrays, LinearAlgebra, Plots
+using SparseArrays, LinearAlgebra
 using SpinSymmetry, Statistics
 using KrylovKit
 using ..LightCones
@@ -22,7 +22,7 @@ function krylov_step(H,δt,ψ)
 	return exponentiate(H,im*δt,ψ;ishermitian=true)[1]
 end
 
-function krylov_from0(H,t,ψ,δt) 
+function krylov_from0(H,t,ψ,δt)
 	#Assume t multiple of timestep
 	T = abs(round(t/δt,digits=0))
 	sgn = t >= 0 ? 1.0 : -1.0

@@ -1,6 +1,6 @@
 module Utils
 
-using SparseArrays, LinearAlgebra, Plots
+using SparseArrays, LinearAlgebra
 using SpinSymmetry, JLD2
 using KrylovKit
 import Dates
@@ -80,7 +80,7 @@ function save_TR(fids, otocs, params, jobid, datapath)
         file["otocs"] = otocs
         file["params"] = params
         file["jobid"] = jobid
-    end    
+    end
 end
 
 function save_TR_ext(fids, otocs, true_otocs, params, jobid, datapath)
@@ -96,7 +96,7 @@ function save_TR_ext(fids, otocs, true_otocs, params, jobid, datapath)
         file["true_otocs"] = true_otocs
         file["params"] = params
         file["jobid"] = jobid
-    end    
+    end
 end
 
 function save_with_hs(data,params,hs,jobid,datapath)

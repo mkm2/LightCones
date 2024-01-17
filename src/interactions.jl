@@ -1,9 +1,8 @@
 module  Interactions
 
-using Reexport
 using ..LightCones
 
-@reexport using ..Geom
+using ..Geom
 
 export interaction_matrix, PowerLaw
 

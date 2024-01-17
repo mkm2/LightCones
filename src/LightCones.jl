@@ -1,14 +1,6 @@
 module LightCones
 
-using Dates
-import JLD2
-using LinearAlgebra
 using Reexport
-using Statistics
-using SparseArrays
-using Plots
-using SpinSymmetry
-using KrylovKit
 
 include("geometry.jl")
 include("interactions.jl")
