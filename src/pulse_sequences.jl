@@ -226,6 +226,21 @@ function Rhim71_FR(Ω::Float64) #Magic echo reversing fields
     return Sequence(pulses,[0.,0.,0.,0.,0.,π/Ω,0.,0.,0.,0.,0.])
 end
 
+function XXDis(τ1::Float64,τ::Float64)
+    pulses = Vector{Pulse}(undef,8)
+    pulses[1] = FastPulse("+x",π/2)
+    pulses[2] = FastPulse("-y",π/2)
+    pulses[3] = FastPulse("-y",π/2)
+    pulses[4] = FastPulse("-y",π/2)
+    pulses[5] = FastPulse("+y",π/2)
+    pulses[6] = FastPulse("+y",π/2)
+    pulses[7] = FastPulse("+y",π/2)
+    pulses[8] = FastPulse("-x",π/2)
+    
+    return Sequence(pulses,[τ1,τ,τ,τ,2*τ,τ,τ,τ,τ1])
+end
+
+
 
 function get_sequence(sequence_name::String,t::Float64,n::Int)
     if sequence_name == "WAHUHA"
@@ -240,6 +255,8 @@ function get_sequence(sequence_name::String,t::Float64,n::Int)
         seq = Rhim71_ZF(π*n/t) #2t = n*tc; tc = 2*π/Ω => Ω = π*n/t
     elseif sequence_name == "Rhim71_FR"
         seq = Rhim71_FR(π*n/t) #5t = n*tc; tc = 5*π/Ω => Ω = π*n/t
+    elseif sequence_name == "XXDis"
+        seq = XXDis()
     else
         throw("Unknown sequence.")
     end
