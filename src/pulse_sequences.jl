@@ -5,7 +5,7 @@ using KrylovKit
 using ..LightCones
 
 export Pulse, SlowPulse, FastPulse, Sequence
-export duration, is_valid, get_sequence
+export duration, is_valid, get_sequence, get_sequence_V2
 export hamiltonian, proto_hamiltonian, rotation, nσ, global_nσ
 export WAHUHA, WAHUHA_ZF, WAHUHA_FR, Rhim71, Rhim71_ZF, Rhim71_FR
 
@@ -262,5 +262,30 @@ function get_sequence(sequence_name::String,t::Float64,n::Int)
     end
     return seq
 end
+
+
+function WAHUHA_V2(tc::Float64, Δ::Float64)
+    τ = tc/2 * Δ/(1+Δ)
+    τ1 = tc/2 * (1-Δ)/(1+Δ)
+    return WAHUHA(τ1,τ,τ)
+end
+
+function XXDis_V2(tc::Float64, Δ::Float64)
+    τ = tc/4 * Δ/(2+Δ)
+    τ1 = tc/2 * (2-Δ)/(2+Δ)
+    return XXDis(τ1,τ)
+end
+
+function get_sequence_V2(sequence_name::String,tc::Float64, Δ::Float64)
+    if sequence_name == "WAHUHA"
+        seq = WAHUHA_V2(tc, Δ) 
+    elseif sequence_name == "XXDis"
+        seq = XXDis_V2(tc, Δ)
+    else
+        throw("Unsupported sequence.")
+    end
+    return seq
+end
+
 
 end #module

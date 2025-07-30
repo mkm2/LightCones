@@ -9,6 +9,7 @@ using ..PulseSequences
 export evolve_forward, perturb, floquet_drive, echo, fidelity_timereversal, oto_commutator_timereversal
 
 ExtRange = Union{AbstractRange{Float64},Vector{Float64}}
+ExtRangeInt = Union{AbstractRange{Int},Vector{Int}}
 TvExtRange = Union{Float64,ExtRange}
 
 ######################
@@ -512,6 +513,57 @@ function oto_commutator_timereversal(H::SparseMatrixCSC{Float64},A::SparseMatrix
     return oto_commutators
 end
 oto_commutator_timereversal(H::SparseMatrixCSC{Float64},A::SparseMatrixCSC{ComplexF64}, B::SparseMatrixCSC{ComplexF64}, trange::ExtRange,ψ0::Vector{ComplexF64},sequence_name::String,n::Int,N::Int,rotations::Vector{Matrix{ComplexF64}},proto_hamiltonians::Vector{SparseMatrixCSC{ComplexF64}},tmax::Float64=1.0) = oto_commutator_timereversal(H,A,B,π/1.,trange,ψ0,sequence_name,n,N,rotations,proto_hamiltonians,tmax) #ϕ=π
+
+
+# Version 2 with fixed tc
+function oto_commutator_TRV2(H::SparseMatrixCSC{Float64},A::SparseMatrixCSC{ComplexF64},B::SparseMatrixCSC{ComplexF64},ϕ::Float64,nrange::ExtRangeInt,ψ0::Vector{ComplexF64},sequence_name::String,tc::Float64,N::Int,rotations::Vector{Matrix{ComplexF64}},proto_hamiltonians::Vector{SparseMatrixCSC{ComplexF64}},tmax::Float64=1.0)
+    oto_commutators = zeros(length(nrange),N)
+    signs = signs_of_eigenstate(B,ψ0,N)
+    seq = get_sequence_V2(sequence_name,tc)
+    ψ_forward = floquet_drive(H,ψ0,N,seq,nrange[1],rotations,proto_hamiltonians,tmax)
+    if ϕ == π/1.
+        ψ_perturbed = perturb(A,ψ_forward)
+    else
+        ψ_perturbed = perturb(A,ϕ,ψ_forward)
+    end
+    ψ = floquet_drive(-H,ψ_perturbed,N,seq,nrange[1],rotations,proto_hamiltonians,tmax)
+    oto_commutators[1,:] = otoc_by_eigenstate_measurement(B,ψ,signs,N)
+    for (i,t) in enumerate(nrange)
+        if i == 1
+            continue
+        end
+        δn = nrange[i] - nrange[i-1]
+        ψ_forward = floquet_drive(H,ψ_forward,N,seq,δn,rotations,proto_hamiltonians,tmax)
+        if ϕ == π/1.
+            ψ_perturbed = perturb(A,ψ_forward)
+        else
+            ψ_perturbed = perturb(A,ϕ,ψ_forward)
+        end
+        ψ = floquet_drive(-H,ψ_perturbed,N,seq,n,rotations,proto_hamiltonians,tmax)
+        oto_commutators[i,:] = otoc_by_eigenstate_measurement(B,ψ,signs,N)
+    end
+    return oto_commutators
+end
+oto_commutator_TRV2(H::SparseMatrixCSC{Float64},A::SparseMatrixCSC{ComplexF64}, B::SparseMatrixCSC{ComplexF64}, nrange::ExtRangeInt,ψ0::Vector{ComplexF64},sequence_name::String,tc::Float64,N::Int,rotations::Vector{Matrix{ComplexF64}},proto_hamiltonians::Vector{SparseMatrixCSC{ComplexF64}},tmax::Float64=1.0) = oto_commutator_TRV2(H,A,B,π/1.,nrange,ψ0,sequence_name,tc,N,rotations,proto_hamiltonians,tmax) #ϕ=π
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 end #module
