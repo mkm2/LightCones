@@ -8,6 +8,7 @@ export Pulse, SlowPulse, FastPulse, Sequence
 export duration, is_valid, get_sequence, get_sequence_V2
 export hamiltonian, proto_hamiltonian, rotation, nσ, global_nσ
 export WAHUHA, WAHUHA_ZF, WAHUHA_FR, Rhim71, Rhim71_ZF, Rhim71_FR
+export WAHUHA_V2, XXDis_V2, get_sequence_V2
 
 
 ##########################

@@ -7,6 +7,7 @@ using ..LightCones
 using ..PulseSequences
 
 export evolve_forward, perturb, floquet_drive, echo, fidelity_timereversal, oto_commutator_timereversal
+export oto_commutator_TRV2
 
 ExtRange = Union{AbstractRange{Float64},Vector{Float64}}
 ExtRangeInt = Union{AbstractRange{Int},Vector{Int}}
