@@ -529,7 +529,7 @@ function oto_commutator_TRV2(H::SparseMatrixCSC{Float64},A::SparseMatrixCSC{Comp
     end
     ψ = floquet_drive(-H,ψ_perturbed,N,seq,nrange[1],rotations,proto_hamiltonians,tmax)
     oto_commutators[1,:] = otoc_by_eigenstate_measurement(B,ψ,signs,N)
-    for (i,t) in enumerate(nrange)
+    for (i,n) in enumerate(nrange)
         if i == 1
             continue
         end
