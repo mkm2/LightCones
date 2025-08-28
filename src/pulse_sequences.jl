@@ -266,8 +266,8 @@ end
 
 
 function WAHUHA_V2(tc::Float64, Δ::Float64)
-    τ = tc/2 * Δ/(1+Δ)
-    τ1 = tc/2 * (1-Δ)/(1+Δ)
+    τ = tc/2 * Δ/(2+Δ)
+    τ1 = tc/2 * (2-Δ)/(2+Δ)
     return WAHUHA(τ1,τ,τ)
 end
 
