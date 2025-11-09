@@ -14,7 +14,7 @@ export up, down, rightx, leftx, neel_state, neel_x_state
 export chainJ, chainJ_pbc, correlator, single_spin_op
 export xxz, xxz_pbc, xyz, xyz_pbc, field_term, hamiltonian_from_positions, const_field, field_term_from_dist, sample_hs
 export nearest_neighbourJ, nearest_neighbourJ_pbc
-export random_state, random_product_state, random_bit_state, random_bitstring_state, random_basis_state,
+export random_state, random_product_state, random_bit_state, random_bitstring_state, random_basis_state
 export magnetisation, fidelity, measure_at_j, measure_all, sign_of_eigenstate, signs_of_eigenstate, otoc_by_eigenstate_measurement
 
 
