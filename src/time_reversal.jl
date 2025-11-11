@@ -545,7 +545,7 @@ function oto_commutator_TRV2(H::SparseMatrixCSC{Float64},A::SparseMatrixCSC{Comp
     end
     return oto_commutators
 end
-oto_commutator_TRV2(H::SparseMatrixCSC{Float64},A::SparseMatrixCSC{ComplexF64}, B::SparseMatrixCSC{ComplexF64}, nrange::ExtRangeInt,ψ0::Vector{ComplexF64},sequence_name::String,tc::Float64,N::Int,rotations::Vector{Matrix{ComplexF64}},proto_hamiltonians::Vector{SparseMatrixCSC{ComplexF64}},tmax::Float64=1.0) = oto_commutator_TRV2(H,A,B,π/1.,nrange,ψ0,sequence_name,tc,N,rotations,proto_hamiltonians,tmax) #ϕ=π
+oto_commutator_TRV2(H::SparseMatrixCSC{Float64},A::SparseMatrixCSC{ComplexF64}, B::SparseMatrixCSC{ComplexF64}, nrange::ExtRangeInt,ψ0::Vector{ComplexF64},sequence_name::String,tc::Float64,Δ::Float64,N::Int,rotations::Vector{Matrix{ComplexF64}},proto_hamiltonians::Vector{SparseMatrixCSC{ComplexF64}},tmax::Float64=1.0) = oto_commutator_TRV2(H,A,B,π/1.,nrange,ψ0,sequence_name,tc,Δ,N,rotations,proto_hamiltonians,tmax) #ϕ=π
 
 
 
