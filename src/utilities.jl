@@ -7,7 +7,7 @@ import Dates
 using ..LightCones
 
 export logmsg, path_prefix, save, save_with_pos, save_TR, save_with_hs, save_TR_ext, save_otoc_re, save_TR_V2
-export SimulationParams, SimulationParamsED
+export SimulationParams, SimulationParamsED, SimulationParamsTR
 export logrange
 
 struct SimulationParams
@@ -24,6 +24,16 @@ struct SimulationParamsED
     SHOTS::Int
     OBSERVABLE::String
     DISORDER_PARAM::Float64
+end
+
+struct SimulationParamsTR
+    N::Int
+    SHOTS::Int
+    OBSERVABLE::String
+    DISORDER_PARAM::Float64
+    ANISOTROPY::Float64
+    SEQ_NAME::String
+    CYCLE_TIME::Float64
 end
 
 function logmsg(msg...; doflush=false)
